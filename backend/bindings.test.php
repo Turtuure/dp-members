@@ -37,32 +37,61 @@ use DaemsModule\Members\Application\Membership\SubmitSupporterApplication\Submit
 use DaemsModule\Members\Controller\ApplicationController;
 use DaemsModule\Members\Controller\MemberController;
 use DaemsModule\Members\Controller\MembersBackstageController;
+use DaemsModule\Members\Tests\Support\InMemoryAdminApplicationDismissalRepository;
+use DaemsModule\Members\Tests\Support\InMemoryMemberApplicationRepository;
+use DaemsModule\Members\Tests\Support\InMemoryMemberDirectoryRepository;
+use DaemsModule\Members\Tests\Support\InMemoryMemberStatusAuditRepository;
+use DaemsModule\Members\Tests\Support\InMemorySupporterApplicationRepository;
+use DaemsModule\Members\Tests\Support\InMemoryTenantMemberCounterRepository;
+use DaemsModule\Members\Tests\Support\InMemoryTenantSupporterCounterRepository;
 
 /**
  * Members module — TEST DI bindings (KernelHarness).
  *
- * IMPORTANT: this file does NOT re-bind any repository. The KernelHarness already
- * registers harness-owned InMemory fake instances for every Members repository
- * (memberApps, supporterApps, dismissals, memberDirectory, memberStatusAudit,
- * memberCounters, supporterCounters). E2E tests seed those harness instances via
- * public properties (e.g. $harness->memberApps->save($app)).
+ * After Wave E task 24, KernelHarness no longer binds Members-domain repositories.
+ * The module owns the test repository surface here: 7 InMemory fakes (one per
+ * repository interface) bound as singletons so cross-domain tests still see the
+ * SAME instance the API code path receives.
  *
- * If we re-bound those interfaces here we would replace the harness-owned
- * instances with fresh empty ones (Container::singleton overwrites by key,
- * registerBindings runs AFTER the harness primes the container) — tests would
- * then seed harness fakes that nobody reads.
+ * Cross-domain access pattern: KernelHarness::__get('memberApps') etc. resolves
+ * via $container->make(InterfaceName::class), which returns the singleton bound
+ * here. Tests can seed via $harness->memberApps->save($app) just like before.
  *
- * The harness's bindings remain authoritative for repos. We only register the
- * module's use cases + controllers so they resolve when the module's routes.php
- * dispatches to DaemsModule\Members\Controller\* — those use cases will look up
- * the harness-bound interfaces and get the same instances the tests seed.
- *
- * Wave E task 21 will remove the harness's repository bindings once the module
- * fully owns the repository surface. Wave C is the in-between state.
- *
- * Inventory: 14 use cases (incl. 2 activation services) + 3 controllers.
+ * Inventory: 7 repositories + 14 use cases (incl. 2 activation services) + 3 controllers.
  */
 return static function (Container $container): void {
+    // ---------------------------------------------------------------------
+    // 7× Repository fakes (singletons — same instance across container.make calls)
+    // ---------------------------------------------------------------------
+    $container->singleton(
+        MemberApplicationRepositoryInterface::class,
+        static fn() => new InMemoryMemberApplicationRepository(),
+    );
+    $container->singleton(
+        SupporterApplicationRepositoryInterface::class,
+        static fn() => new InMemorySupporterApplicationRepository(),
+    );
+    $container->singleton(
+        MemberStatusAuditRepositoryInterface::class,
+        static fn() => new InMemoryMemberStatusAuditRepository(),
+    );
+    $container->singleton(
+        MemberDirectoryRepositoryInterface::class,
+        static fn() => new InMemoryMemberDirectoryRepository(),
+    );
+    $container->singleton(
+        AdminApplicationDismissalRepositoryInterface::class,
+        static fn() => new InMemoryAdminApplicationDismissalRepository(),
+    );
+    $container->singleton(
+        TenantMemberCounterRepositoryInterface::class,
+        static fn() => new InMemoryTenantMemberCounterRepository(),
+    );
+    $container->singleton(
+        TenantSupporterCounterRepositoryInterface::class,
+        static fn() => new InMemoryTenantSupporterCounterRepository(),
+    );
+
     // ---------------------------------------------------------------------
     // 2× Activation services
     // ---------------------------------------------------------------------
