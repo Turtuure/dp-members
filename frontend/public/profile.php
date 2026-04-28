@@ -81,7 +81,7 @@ $initials      = (string) ($profile['avatar_initials'] ?? '');
         <link rel="stylesheet" href="/assets/css/bootstrap-icons.min.css" />
         <link rel="stylesheet" href="/assets/css/daems.css" />
         <link rel="stylesheet" href="/assets/css/daems-search.css" />
-        <link rel="stylesheet" href="/assets/css/public-member-page.css" />
+        <link rel="stylesheet" href="/modules/members/assets/public/public-member-page.css" />
     </head>
     <body>
 
