@@ -104,7 +104,7 @@ final class MemberActivationIntegrationTest extends MigrationTestCase
         $supporterActivation = new SupporterActivationService(
             $userRepo,
             $userTenantRepo,
-            new \Daems\Infrastructure\Adapter\Persistence\Sql\SqlTenantSupporterCounterRepository($pdo),
+            new \DaemsModule\Members\Infrastructure\SqlTenantSupporterCounterRepository($pdo),
             $clock,
             $idGen,
         );

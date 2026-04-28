@@ -72,7 +72,7 @@ final class ApplicationApprovalTenantIsolationTest extends IsolationTestCase
             new SupporterActivationService(
                 new SqlUserRepository($this->conn),
                 new SqlUserTenantRepository($pdo),
-                new \Daems\Infrastructure\Adapter\Persistence\Sql\SqlTenantSupporterCounterRepository($pdo),
+                new \DaemsModule\Members\Infrastructure\SqlTenantSupporterCounterRepository($pdo),
                 $clock,
                 $idGen,
             ),

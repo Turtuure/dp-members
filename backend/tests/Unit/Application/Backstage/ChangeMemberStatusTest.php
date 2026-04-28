@@ -39,7 +39,7 @@ final class ChangeMemberStatusTest extends TestCase
             new \Daems\Tests\Support\Fake\InMemoryUserRepository(),
             new \Daems\Tests\Support\Fake\InMemoryUserTenantRepository(),
             new \Daems\Tests\Support\Fake\InMemoryAuthTokenRepository(),
-            new \Daems\Tests\Support\Fake\InMemoryMemberStatusAuditRepository(),
+            new \DaemsModule\Members\Tests\Support\InMemoryMemberStatusAuditRepository(),
             new \Daems\Tests\Support\Fake\ImmediateTransactionManager(),
             $this->clock,
             new class implements \Daems\Domain\Shared\IdGeneratorInterface {
