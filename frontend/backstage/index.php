@@ -17,9 +17,7 @@
 
 declare(strict_types=1);
 
-if (!class_exists('ApiClient')) {
-    require_once DAEMS_SITE_PUBLIC . '/../src/ApiClient.php';
-}
+use Daems\Frontend\ApiClient;
 
 $pageTitle = 'Members';
 $activePage = 'members';
@@ -1051,4 +1049,4 @@ $decidedTitle = $view === 'approved' ? 'Approved' : 'Rejected';
 
 <?php
 $pageContent = ob_get_clean();
-require DAEMS_SITE_PUBLIC . '/pages/backstage/layout.php';
+require DAEMS_SITE_PUBLIC . '/pages/layout.php';
