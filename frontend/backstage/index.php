@@ -19,7 +19,7 @@ declare(strict_types=1);
 
 use Daems\Frontend\ApiClient;
 
-$pageTitle = 'Members';
+$pageTitle = 'backstage.title.members';
 $activePage = 'members';
 $breadcrumbs = [];
 
@@ -492,7 +492,8 @@ $pendingKpis = [
     <div class="card__body members-table-body">
 
         <!-- Inline filter row -->
-        <form method="get" action="/backstage/members" class="members-filters-row">
+        <form method="get" action="/backstage/members" class="members-filters-row"
+              id="members-filter-form" aria-label="Filter members">
             <input type="hidden" name="sort" value="<?= $esc($sort) ?>">
             <input type="hidden" name="dir" value="<?= $esc($dir) ?>">
             <input type="text" name="q" value="<?= $esc($qFilter) ?>" placeholder="Search name, email, member #" class="members-filters-row__search">
