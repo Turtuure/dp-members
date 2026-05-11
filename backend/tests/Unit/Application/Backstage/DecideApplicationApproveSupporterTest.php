@@ -13,6 +13,7 @@ use Daems\Domain\Auth\ActingUser;
 use Daems\Domain\Config\BaseUrlResolverInterface;
 use Daems\Domain\Dismissal\AdminApplicationDismissal;
 use Daems\Domain\Invite\TokenGeneratorInterface;
+use Daems\Domain\Membership\MembershipType;
 use Daems\Domain\Membership\SupporterApplication;
 use Daems\Domain\Membership\SupporterApplicationId;
 use Daems\Domain\Shared\Clock;
@@ -191,7 +192,7 @@ final class DecideApplicationApproveSupporterTest extends TestCase
         // User created with supporter membership type
         $user = $users->findByEmail('bob@acme.com');
         self::assertNotNull($user);
-        self::assertSame('supporter', $user->membershipType());
+        self::assertSame(MembershipType::Supporting->value, $user->membershipType());
 
         // user_tenants attached with 'supporter' role
         self::assertTrue($userTenants->hasRole($out->activatedUserId, self::TENANT_ID, 'supporter'));

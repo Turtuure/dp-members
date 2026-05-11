@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DaemsModule\Members\Application\Backstage\ActivateSupporter;
 
+use Daems\Domain\Membership\MembershipType;
 use Daems\Domain\Shared\Clock;
 use Daems\Domain\Shared\IdGeneratorInterface;
 use Daems\Domain\Tenant\TenantId;
@@ -38,7 +39,7 @@ final class SupporterActivationService
             'email'             => $applicationFields['email'],
             'date_of_birth'     => null,
             'country'           => $applicationFields['country'] ?? '',
-            'membership_type'   => 'supporter',
+            'membership_type'   => MembershipType::Supporting->value,
             'membership_status' => 'active',
             'member_number'     => $supporterNumber,
         ], $now);

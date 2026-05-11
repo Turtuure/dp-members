@@ -6,6 +6,7 @@ namespace DaemsModule\Members\Tests\Unit\Application\Backstage;
 
 use DaemsModule\Members\Application\Backstage\ActivateSupporter\SupporterActivationService;
 use DaemsModule\Members\Tests\Support\InMemoryTenantSupporterCounterRepository;
+use Daems\Domain\Membership\MembershipType;
 use Daems\Tests\Support\Fake\InMemoryUserRepository;
 use Daems\Tests\Support\Fake\InMemoryUserTenantRepository;
 use PHPUnit\Framework\TestCase;
@@ -48,7 +49,7 @@ final class SupporterActivationServiceTest extends TestCase
         self::assertNotNull($user);
         self::assertSame('00017', $user->memberNumber());
         self::assertNull($user->dateOfBirth());
-        self::assertSame('supporter', $user->membershipType());
+        self::assertSame(MembershipType::Supporting->value, $user->membershipType());
         self::assertTrue($userTen->hasRole(self::USER_ID, self::TENANT_ID, 'supporter'));
     }
 }

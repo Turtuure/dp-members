@@ -6,6 +6,7 @@ namespace DaemsModule\Members\Application\Backstage\ActivateMember;
 
 use Daems\Domain\Membership\MemberStatusAudit;
 use Daems\Domain\Membership\MemberStatusAuditRepositoryInterface;
+use Daems\Domain\Membership\MembershipType;
 use Daems\Domain\Shared\Clock;
 use Daems\Domain\Shared\IdGeneratorInterface;
 use Daems\Domain\Tenant\TenantId;
@@ -44,7 +45,7 @@ final class MemberActivationService
             'email'             => $applicationFields['email'],
             'date_of_birth'     => $applicationFields['date_of_birth'] ?? null,
             'country'           => $applicationFields['country'] ?? '',
-            'membership_type'   => 'individual',
+            'membership_type'   => MembershipType::Basic->value,
             'membership_status' => 'active',
             'member_number'     => $memberNumber,
         ], $now);
