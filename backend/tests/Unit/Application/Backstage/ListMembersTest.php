@@ -42,7 +42,7 @@ final class ListMembersTest extends TestCase
 
     public function testReturnsEntriesWithPaginationMeta(): void
     {
-        $entry = new MemberDirectoryEntry('uid', 'Alice', 'a@x', 'individual', 'active', '1001', 'member', '2026-01-01 00:00:00', null, null, '2026-01-01 00:00:00');
+        $entry = new MemberDirectoryEntry('uid', 'Alice', 'a@x', 'individual', 'active', '1001', 'member', '2026-01-01 00:00:00', null, null, '2026-01-01 00:00:00', null);
 
         $repo = $this->createMock(MemberDirectoryRepositoryInterface::class);
         $repo->method('listMembersForTenant')->willReturn(['entries' => [$entry], 'total' => 1]);

@@ -543,6 +543,7 @@ $pendingKpis = [
                         $memberType = (string) ($member['membership_type'] ?? '');
                         $memberName = (string) ($member['name'] ?? '');
                         $tier = $memberTier($memberName, $memberType);
+                        $subTierSlug = (string) ($member['subtier_slug'] ?? '');
                         $currentStatus = (string) ($member['membership_status'] ?? '');
                         $statusPill = match ($currentStatus) {
                             'active'     => 'pill--published', // green
@@ -560,7 +561,12 @@ $pendingKpis = [
                         <td><?= $esc((string) ($member['member_number'] ?? '-')) ?></td>
                         <td><?= $esc((string) ($member['name'] ?? '')) ?></td>
                         <td><?= $esc((string) ($member['email'] ?? '')) ?></td>
-                        <td><span class="pill <?= $esc($tier['pill']) ?>"><?= $esc($tier['label']) ?></span></td>
+                        <td>
+                            <span class="pill <?= $esc($tier['pill']) ?>"><?= $esc($tier['label']) ?></span>
+                            <?php if ($subTierSlug !== ''): ?>
+                                <span class="badge badge--honor"><?= $esc($subTierSlug) ?></span>
+                            <?php endif; ?>
+                        </td>
                         <td>
                             <span class="pill <?= $esc($statusPill) ?>"><?= $esc(ucfirst($currentStatus)) ?></span>
                         </td>

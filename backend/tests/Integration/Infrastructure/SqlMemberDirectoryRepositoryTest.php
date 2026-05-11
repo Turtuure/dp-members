@@ -19,7 +19,7 @@ final class SqlMemberDirectoryRepositoryTest extends MigrationTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->runMigrationsUpTo(35);
+        $this->runMigrationsUpTo(74);
 
         $this->repo = new SqlMemberDirectoryRepository(new Connection([
             'host'     => getenv('TEST_DB_HOST') ?: '127.0.0.1',

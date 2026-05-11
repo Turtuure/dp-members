@@ -72,7 +72,7 @@ final class SqlMemberDirectoryRepository implements MemberDirectoryRepositoryInt
         $offset = max(0, ($page - 1) * $perPage);
         $stmt = $this->db->pdo()->prepare(
             "SELECT u.id, u.name, u.email, u.membership_type, u.membership_status, u.member_number,
-                    u.country, u.date_of_birth, u.created_at,
+                    u.country, u.date_of_birth, u.created_at, u.membership_subtier,
                     ut.role, ut.joined_at
              FROM users u
              JOIN user_tenants ut ON ut.user_id = u.id
@@ -186,6 +186,7 @@ final class SqlMemberDirectoryRepository implements MemberDirectoryRepositoryInt
         $role         = $r['role'] ?? null;
         $country      = $r['country'] ?? null;
         $dateOfBirth  = $r['date_of_birth'] ?? null;
+        $subTierSlug  = $r['membership_subtier'] ?? null;
 
         return new MemberDirectoryEntry(
             userId:           self::str($r, 'id'),
@@ -199,6 +200,7 @@ final class SqlMemberDirectoryRepository implements MemberDirectoryRepositoryInt
             country:          is_string($country) ? $country : null,
             dateOfBirth:      is_string($dateOfBirth) ? $dateOfBirth : null,
             createdAt:        self::str($r, 'created_at'),
+            subTierSlug:      is_string($subTierSlug) ? $subTierSlug : null,
         );
     }
 
