@@ -386,6 +386,28 @@ ob_start();
                         <button type="submit" name="decision" value="approved" class="btn btn--success-outline">Approve</button>
                     </div>
                 </form>
+                <!-- Governance integration (Option B — side-by-side button).
+                     Clicking this button triggers the governance flow via JS:
+                     fetches delegation state, then calls POST /api/backstage/governance/decisions/approve-basic
+                     (or opens a vote_visibility prompt when not delegated to admin).
+                     GSA users also get a force-approve override. -->
+                <div class="members-detail__governance-actions"
+                     data-governance-app-id="<?= $esc((string) ($detailApp['id'] ?? '')) ?>"
+                     data-governance-app-kind="<?= $esc($detailKindRaw) ?>">
+                    <button type="button"
+                            class="btn btn--outline js-gov-propose-approve"
+                            title="Luo hallituspäätös perusjäsenhyväksynnälle">
+                        Ehdota hallitukselle
+                    </button>
+                    <?php if ($isGsa): ?>
+                    <button type="button"
+                            class="btn btn--danger-outline js-gov-force-approve"
+                            title="GSA-ylikuittaus: ohita delegointi ja hyväksy välittömästi">
+                        Pakkohyväksy (GSA)
+                    </button>
+                    <?php endif; ?>
+                </div>
+                <script src="/backstage/pages/governance/application-gov.js" defer></script>
             <?php elseif ($appStatus === 'approved' || $appStatus === 'rejected'): ?>
                 <div class="members-detail__decision-meta">
                     <h3 class="members-detail__heading">Decision</h3>
@@ -595,6 +617,8 @@ $pendingKpis = [
                                     <li role="separator" class="members-action-menu__separator"></li>
                                     <?php endif; ?>
                                     <li role="none"><button type="button" role="menuitem" class="members-action-menu__item" data-modal-action="audit" data-member-id="<?= $esc($memberId) ?>" data-member-name="<?= $esc((string) ($member['name'] ?? '')) ?>" data-audit-url="/backstage/members<?= $buildQuery(['page' => $page, 'audit' => $memberId]) ?>">Audit log</button></li>
+                                    <li role="separator" class="members-action-menu__separator"></li>
+                                    <li role="none"><a role="menuitem" class="members-action-menu__item" href="/backstage/governance/expulsions/new?target_user_id=<?= rawurlencode($memberId) ?>">Ehdota erottamista</a></li>
                                 </ul>
                             </div>
                             <?php endif; ?>
