@@ -571,6 +571,7 @@ $pendingKpis = [
                             'active'     => 'pill--published', // green
                             'suspended'  => 'pill--archived',  // amber
                             'terminated' => 'pill--draft',     // neutral
+                            'lapsed'     => 'pill--lapsed',    // muted warning (§ 4 deemed-resignation)
                             default      => 'pill--draft',
                         };
                         $allowedNext = $nextStatuses($currentStatus);
